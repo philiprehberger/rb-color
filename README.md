@@ -4,7 +4,7 @@
 [![CI](https://github.com/philiprehberger/rb-color/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/rb-color/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/philiprehberger/rb-color)](LICENSE)
 
-Terminal ANSI color and styling with auto-detection.
+Terminal ANSI color and styling with auto-detection
 
 ## Requirements
 
@@ -12,13 +12,15 @@ Terminal ANSI color and styling with auto-detection.
 
 ## Installation
 
+Add to your Gemfile:
+
 ```ruby
 gem 'philiprehberger-color'
 ```
 
 Or install directly:
 
-```sh
+```bash
 gem install philiprehberger-color
 ```
 
@@ -91,11 +93,12 @@ Set `NO_COLOR` to disable color output. Set `FORCE_COLOR` to force color output 
 
 ## Development
 
-```sh
+```bash
 bundle install
-bundle exec rspec
+bundle exec rspec      # Run tests
+bundle exec rubocop    # Check code style
 ```
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT
