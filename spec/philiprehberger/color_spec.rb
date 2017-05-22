@@ -19,29 +19,190 @@ RSpec.describe Philiprehberger::Color do
     expect(Philiprehberger::Color::VERSION).not_to be_nil
   end
 
-  it 'wraps string with red ANSI codes' do
-    result = described_class.red('hello')
-    expect(result).to eq("\e[31mhello\e[0m")
+  it 'version is a valid semver string' do
+    expect(Philiprehberger::Color::VERSION).to match(/\A\d+\.\d+\.\d+\z/)
   end
 
-  it 'wraps string with green ANSI codes' do
-    result = described_class.green('hello')
-    expect(result).to eq("\e[32mhello\e[0m")
+  describe 'named colors' do
+    it 'wraps string with red ANSI codes' do
+      result = described_class.red('hello')
+      expect(result).to eq("\e[31mhello\e[0m")
+    end
+
+    it 'wraps string with green ANSI codes' do
+      result = described_class.green('hello')
+      expect(result).to eq("\e[32mhello\e[0m")
+    end
+
+    it 'wraps string with blue ANSI codes' do
+      result = described_class.blue('hello')
+      expect(result).to eq("\e[34mhello\e[0m")
+    end
+
+    it 'wraps string with yellow ANSI codes' do
+      result = described_class.yellow('hello')
+      expect(result).to eq("\e[33mhello\e[0m")
+    end
+
+    it 'wraps string with cyan ANSI codes' do
+      result = described_class.cyan('hello')
+      expect(result).to eq("\e[36mhello\e[0m")
+    end
+
+    it 'wraps string with magenta ANSI codes' do
+      result = described_class.magenta('hello')
+      expect(result).to eq("\e[35mhello\e[0m")
+    end
+
+    it 'wraps string with white ANSI codes' do
+      result = described_class.white('hello')
+      expect(result).to eq("\e[37mhello\e[0m")
+    end
+
+    it 'wraps string with black ANSI codes' do
+      result = described_class.black('hello')
+      expect(result).to eq("\e[30mhello\e[0m")
+    end
+
+    it 'wraps string with bright_red ANSI codes' do
+      result = described_class.bright_red('hello')
+      expect(result).to eq("\e[91mhello\e[0m")
+    end
+
+    it 'wraps string with bright_green ANSI codes' do
+      result = described_class.bright_green('hello')
+      expect(result).to eq("\e[92mhello\e[0m")
+    end
   end
 
-  it 'applies bold styling' do
-    result = described_class.bold.call('hello')
-    expect(result).to eq("\e[1mhello\e[0m")
+  describe 'styles' do
+    it 'applies bold styling' do
+      result = described_class.bold.call('hello')
+      expect(result).to eq("\e[1mhello\e[0m")
+    end
+
+    it 'applies dim styling' do
+      result = described_class.dim.call('hello')
+      expect(result).to eq("\e[2mhello\e[0m")
+    end
+
+    it 'applies italic styling' do
+      result = described_class.italic.call('hello')
+      expect(result).to eq("\e[3mhello\e[0m")
+    end
+
+    it 'applies underline styling' do
+      result = described_class.underline.call('hello')
+      expect(result).to eq("\e[4mhello\e[0m")
+    end
   end
 
-  it 'chains bold and red' do
-    result = described_class.bold.red.call('text')
-    expect(result).to eq("\e[1m\e[31mtext\e[0m")
+  describe 'chained styles' do
+    it 'chains bold and red' do
+      result = described_class.bold.red.call('text')
+      expect(result).to eq("\e[1m\e[31mtext\e[0m")
+    end
+
+    it 'chains underline and blue' do
+      result = described_class.underline.blue.call('text')
+      expect(result).to eq("\e[4m\e[34mtext\e[0m")
+    end
+
+    it 'chains italic and green' do
+      result = described_class.italic.green.call('text')
+      expect(result).to eq("\e[3m\e[32mtext\e[0m")
+    end
+
+    it 'chains dim and yellow' do
+      result = described_class.dim.yellow.call('text')
+      expect(result).to eq("\e[2m\e[33mtext\e[0m")
+    end
+
+    it 'chains bold, underline, and red' do
+      result = described_class.bold.underline.red.call('text')
+      expect(result).to eq("\e[1m\e[4m\e[31mtext\e[0m")
+    end
+
+    it 'chains color with background' do
+      result = described_class.bold.bg(:blue).call('text')
+      expect(result).to eq("\e[1m\e[44mtext\e[0m")
+    end
   end
 
-  it 'chains underline and blue' do
-    result = described_class.underline.blue.call('text')
-    expect(result).to eq("\e[4m\e[34mtext\e[0m")
+  describe 'RGB colors' do
+    it 'produces RGB escape codes' do
+      result = described_class.rgb(255, 100, 50).call('color')
+      expect(result).to include("\e[38;2m\e[255m\e[100m\e[50m")
+      expect(result).to end_with("\e[0m")
+    end
+
+    it 'handles RGB boundary value 0' do
+      result = described_class.rgb(0, 0, 0).call('dark')
+      expect(result).to include("\e[38;2m\e[0m\e[0m\e[0m")
+      expect(result).to end_with("\e[0m")
+    end
+
+    it 'handles RGB boundary value 255' do
+      result = described_class.rgb(255, 255, 255).call('light')
+      expect(result).to include("\e[38;2m\e[255m\e[255m\e[255m")
+      expect(result).to end_with("\e[0m")
+    end
+  end
+
+  describe 'hex colors' do
+    it 'produces hex escape codes with hash prefix' do
+      result = described_class.hex('#ff6432').call('color')
+      expect(result).to include("\e[38;2m\e[255m\e[100m\e[50m")
+    end
+
+    it 'produces hex escape codes without hash prefix' do
+      result = described_class.hex('ff6432').call('color')
+      expect(result).to include("\e[38;2m\e[255m\e[100m\e[50m")
+    end
+
+    it 'handles all-zeros hex' do
+      result = described_class.hex('#000000').call('dark')
+      expect(result).to include("\e[38;2m\e[0m\e[0m\e[0m")
+    end
+
+    it 'handles all-max hex' do
+      result = described_class.hex('#ffffff').call('light')
+      expect(result).to include("\e[38;2m\e[255m\e[255m\e[255m")
+    end
+  end
+
+  describe 'background colors' do
+    it 'applies background color' do
+      result = described_class.bg(:red).call('hello')
+      expect(result).to eq("\e[41mhello\e[0m")
+    end
+
+    it 'applies green background' do
+      result = described_class.bg(:green).call('hello')
+      expect(result).to eq("\e[42mhello\e[0m")
+    end
+
+    it 'applies blue background' do
+      result = described_class.bg(:blue).call('hello')
+      expect(result).to eq("\e[44mhello\e[0m")
+    end
+
+    it 'ignores unknown background color' do
+      result = described_class.bg(:nonexistent).call('hello')
+      expect(result).to eq("hello\e[0m")
+    end
+  end
+
+  describe 'empty string input' do
+    it 'wraps empty string with color codes' do
+      result = described_class.red('')
+      expect(result).to eq("\e[31m\e[0m")
+    end
+
+    it 'wraps empty string with chained styles' do
+      result = described_class.bold.red.call('')
+      expect(result).to eq("\e[1m\e[31m\e[0m")
+    end
   end
 
   context 'when NO_COLOR is set' do
@@ -51,8 +212,13 @@ RSpec.describe Philiprehberger::Color do
       example.run
     end
 
-    it 'returns plain string' do
+    it 'returns plain string for named colors' do
       result = described_class.red('hello')
+      expect(result).to eq('hello')
+    end
+
+    it 'returns plain string for styled output' do
+      result = described_class.bold.call('hello')
       expect(result).to eq('hello')
     end
 
@@ -61,19 +227,17 @@ RSpec.describe Philiprehberger::Color do
     end
   end
 
-  it 'produces RGB escape codes' do
-    result = described_class.rgb(255, 100, 50).call('color')
-    expect(result).to include("\e[38;2m\e[255m\e[100m\e[50m")
-    expect(result).to end_with("\e[0m")
+  context 'when FORCE_COLOR is set' do
+    it 'returns true for enabled?' do
+      expect(described_class.enabled?).to be true
+    end
   end
 
-  it 'produces hex escape codes' do
-    result = described_class.hex('#ff6432').call('color')
-    expect(result).to include("\e[38;2m\e[255m\e[100m\e[50m")
-  end
-
-  it 'applies background color' do
-    result = described_class.bg(:red).call('hello')
-    expect(result).to eq("\e[41mhello\e[0m")
+  describe '.enabled? detection' do
+    it 'respects FORCE_COLOR over NO_COLOR' do
+      ENV['FORCE_COLOR'] = '1'
+      ENV['NO_COLOR'] = '1'
+      expect(described_class.enabled?).to be true
+    end
   end
 end
