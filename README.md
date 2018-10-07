@@ -28,24 +28,51 @@ gem install philiprehberger-color
 
 ```ruby
 require "philiprehberger/color"
+```
 
-# Named colors
-puts Philiprehberger::Color.red('Error!')
-puts Philiprehberger::Color.green('Success!')
+### Named Colors and Styles
 
-# Chainable styling
-puts Philiprehberger::Color.bold.red.call('Bold red')
-puts Philiprehberger::Color.underline.cyan.call('Underlined cyan')
+Apply standard ANSI colors directly, or chain styles for compound effects:
 
-# Background colors
-puts Philiprehberger::Color.bg(:yellow).call('Yellow background')
+```ruby
+puts Philiprehberger::Color.red("Error!")
+puts Philiprehberger::Color.green("Success!")
+puts Philiprehberger::Color.bright_cyan("Info")
 
-# RGB and hex colors
-puts Philiprehberger::Color.rgb(255, 165, 0).call('Orange')
-puts Philiprehberger::Color.hex('#ff6432').call('Custom color')
+puts Philiprehberger::Color.bold.red.call("Bold red")
+puts Philiprehberger::Color.italic.yellow.call("Italic yellow")
+puts Philiprehberger::Color.dim.underline.white.call("Dim underlined")
+```
 
-# Detection
+### RGB and Hex Colors
+
+Use 24-bit true color with RGB values or hex strings:
+
+```ruby
+puts Philiprehberger::Color.rgb(255, 165, 0).call("Orange")
+puts Philiprehberger::Color.hex("#ff6432").call("Coral")
+puts Philiprehberger::Color.bold.rgb(100, 200, 255).call("Bold sky blue")
+```
+
+### Background Colors
+
+Set background colors by name, and combine them with foreground styles:
+
+```ruby
+puts Philiprehberger::Color.bg(:yellow).call("Yellow background")
+puts Philiprehberger::Color.bg(:red).bold.white.call("White on red")
+puts Philiprehberger::Color.bg(:blue).bright_white.call("Bright white on blue")
+```
+
+### Detection
+
+Color output is automatically enabled when stdout is a TTY. Control it with environment variables:
+
+```ruby
 Philiprehberger::Color.enabled? # => true (when TTY)
+
+# Disable all color output:  NO_COLOR=1
+# Force color output:        FORCE_COLOR=1
 ```
 
 ## API
