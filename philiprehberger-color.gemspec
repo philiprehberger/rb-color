@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary = 'Terminal ANSI color and styling with auto-detection'
   spec.description = 'A lightweight Ruby library for terminal ANSI color and styling ' \
                      'with chainable API, RGB/hex support, and automatic terminal detection.'
-  spec.homepage      = 'https://philiprehberger.com/open-source-packages/ruby/philiprehberger-color'
+  spec.homepage = 'https://philiprehberger.com/open-source-packages/ruby/philiprehberger-color'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.1.0'
 
