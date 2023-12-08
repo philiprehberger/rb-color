@@ -75,6 +75,16 @@ Philiprehberger::Color.enabled? # => true (when TTY)
 # Force color output:        FORCE_COLOR=1
 ```
 
+### Stripping ANSI Codes
+
+```ruby
+require "philiprehberger/color"
+
+colored = Philiprehberger::Color.red("hello")
+Philiprehberger::Color.strip(colored)           # => "hello"
+Philiprehberger::Color.visible_length(colored)   # => 5
+```
+
 ## API
 
 ### Named Colors
@@ -117,6 +127,13 @@ Philiprehberger::Color.enabled? # => true (when TTY)
 | `Color.enabled?` | `true` if stdout is a TTY and `NO_COLOR` is not set |
 
 Set `NO_COLOR` to disable color output. Set `FORCE_COLOR` to force color output regardless of TTY.
+
+### Utilities
+
+| Method | Description |
+|--------|-------------|
+| `Color.strip(str)` | Remove all ANSI escape sequences from a string |
+| `Color.visible_length(str)` | Return display width of a string excluding ANSI codes |
 
 ## Development
 

@@ -7,6 +7,16 @@ require_relative 'color/detection'
 
 module Philiprehberger
   module Color
+    ANSI_PATTERN = /\e\[[0-9;]*m/
+
+    def self.strip(string)
+      string.to_s.gsub(ANSI_PATTERN, '')
+    end
+
+    def self.visible_length(string)
+      strip(string).length
+    end
+
     def self.enabled?
       Detection.enabled?
     end
