@@ -75,6 +75,14 @@ Philiprehberger::Color.enabled? # => true (when TTY)
 # Force color output:        FORCE_COLOR=1
 ```
 
+### Rainbow Text
+
+Apply cycling colors (red, yellow, green, cyan, blue, magenta) to each character:
+
+```ruby
+puts Philiprehberger::Color.rainbow("Hello, world!")
+```
+
 ### Stripping ANSI Codes
 
 ```ruby
@@ -132,6 +140,7 @@ Set `NO_COLOR` to disable color output. Set `FORCE_COLOR` to force color output 
 
 | Method | Description |
 |--------|-------------|
+| `Color.rainbow(str)` | Apply cycling rainbow colors to each character |
 | `Color.strip(str)` | Remove all ANSI escape sequences from a string |
 | `Color.visible_length(str)` | Return display width of a string excluding ANSI codes |
 

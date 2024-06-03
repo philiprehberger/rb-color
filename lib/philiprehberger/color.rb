@@ -53,6 +53,13 @@ module Philiprehberger
       Styler.new.bg(color_name)
     end
 
+    def self.rainbow(text)
+      return text unless enabled?
+
+      colors = [31, 33, 32, 36, 34, 35] # red, yellow, green, cyan, blue, magenta
+      text.chars.map.with_index { |c, i| c == ' ' ? c : "\e[#{colors[i % colors.length]}m#{c}\e[0m" }.join
+    end
+
     Ansi::COLORS.each_key do |name|
       define_singleton_method(name) do |string|
         Ansi.wrap(string, Ansi::COLORS[name])
