@@ -3,8 +3,8 @@
 module Philiprehberger
   module Color
     class Styler
-      def initialize
-        @codes = []
+      def initialize(codes = [])
+        @codes = codes
       end
 
       def call(string)
@@ -12,42 +12,44 @@ module Philiprehberger
       end
 
       def bold
-        @codes << 1
-        self
+        derive(1)
       end
 
       def dim
-        @codes << 2
-        self
+        derive(2)
       end
 
       def italic
-        @codes << 3
-        self
+        derive(3)
       end
 
       def underline
-        @codes << 4
-        self
+        derive(4)
       end
 
       def bg(color_name)
         code = Ansi::BG_COLORS[color_name.to_sym]
-        @codes << code if code
-        self
+        code ? derive(code) : derive
       end
 
       def rgb(red, green, blue)
-        @codes << '38;2'
-        @codes << red << green << blue
-        self
+        derive("38;2;#{red};#{green};#{blue}")
+      end
+
+      def bg_rgb(red, green, blue)
+        derive("48;2;#{red};#{green};#{blue}")
       end
 
       Ansi::COLORS.each do |name, code|
         define_method(name) do
-          @codes << code
-          self
+          derive(code)
         end
+      end
+
+      private
+
+      def derive(*new_codes)
+        self.class.new(@codes + new_codes)
       end
     end
   end

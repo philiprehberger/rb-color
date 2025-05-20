@@ -56,12 +56,13 @@ puts Philiprehberger::Color.bold.rgb(100, 200, 255).call("Bold sky blue")
 
 ### Background Colors
 
-Set background colors by name, and combine them with foreground styles:
+Set background colors by name, RGB, or hex, and combine them with foreground styles:
 
 ```ruby
 puts Philiprehberger::Color.bg(:yellow).call("Yellow background")
 puts Philiprehberger::Color.bg(:red).bold.white.call("White on red")
-puts Philiprehberger::Color.bg(:blue).bright_white.call("Bright white on blue")
+puts Philiprehberger::Color.bg_rgb(0, 0, 128).bright_white.call("White on navy")
+puts Philiprehberger::Color.bg_hex("#663399").bold.call("Bold on purple")
 ```
 
 ### Detection
@@ -127,6 +128,8 @@ Philiprehberger::Color.visible_length(colored)   # => 5
 | `Color.rgb(r, g, b)` | Returns Styler with 24-bit foreground color |
 | `Color.hex(hex_string)` | Returns Styler with hex foreground color |
 | `Color.bg(color_name)` | Returns Styler with background color |
+| `Color.bg_rgb(r, g, b)` | Returns Styler with 24-bit background color |
+| `Color.bg_hex(hex_string)` | Returns Styler with hex background color |
 
 ### Detection
 

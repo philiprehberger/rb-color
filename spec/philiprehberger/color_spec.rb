@@ -130,44 +130,65 @@ RSpec.describe Philiprehberger::Color do
   end
 
   describe 'RGB colors' do
-    it 'produces RGB escape codes' do
+    it 'produces standard RGB escape codes' do
       result = described_class.rgb(255, 100, 50).call('color')
-      expect(result).to include("\e[38;2m\e[255m\e[100m\e[50m")
-      expect(result).to end_with("\e[0m")
+      expect(result).to eq("\e[38;2;255;100;50mcolor\e[0m")
     end
 
     it 'handles RGB boundary value 0' do
       result = described_class.rgb(0, 0, 0).call('dark')
-      expect(result).to include("\e[38;2m\e[0m\e[0m\e[0m")
-      expect(result).to end_with("\e[0m")
+      expect(result).to eq("\e[38;2;0;0;0mdark\e[0m")
     end
 
     it 'handles RGB boundary value 255' do
       result = described_class.rgb(255, 255, 255).call('light')
-      expect(result).to include("\e[38;2m\e[255m\e[255m\e[255m")
-      expect(result).to end_with("\e[0m")
+      expect(result).to eq("\e[38;2;255;255;255mlight\e[0m")
     end
   end
 
   describe 'hex colors' do
     it 'produces hex escape codes with hash prefix' do
       result = described_class.hex('#ff6432').call('color')
-      expect(result).to include("\e[38;2m\e[255m\e[100m\e[50m")
+      expect(result).to eq("\e[38;2;255;100;50mcolor\e[0m")
     end
 
     it 'produces hex escape codes without hash prefix' do
       result = described_class.hex('ff6432').call('color')
-      expect(result).to include("\e[38;2m\e[255m\e[100m\e[50m")
+      expect(result).to eq("\e[38;2;255;100;50mcolor\e[0m")
     end
 
     it 'handles all-zeros hex' do
       result = described_class.hex('#000000').call('dark')
-      expect(result).to include("\e[38;2m\e[0m\e[0m\e[0m")
+      expect(result).to eq("\e[38;2;0;0;0mdark\e[0m")
     end
 
     it 'handles all-max hex' do
       result = described_class.hex('#ffffff').call('light')
-      expect(result).to include("\e[38;2m\e[255m\e[255m\e[255m")
+      expect(result).to eq("\e[38;2;255;255;255mlight\e[0m")
+    end
+  end
+
+  describe 'background RGB colors' do
+    it 'produces background RGB escape codes' do
+      result = described_class.bg_rgb(255, 100, 50).call('color')
+      expect(result).to eq("\e[48;2;255;100;50mcolor\e[0m")
+    end
+
+    it 'chains foreground and background RGB' do
+      result = described_class.rgb(255, 255, 255).bg_rgb(0, 0, 128).call('text')
+      expect(result).to eq("\e[38;2;255;255;255m\e[48;2;0;0;128mtext\e[0m")
+    end
+  end
+
+  describe 'background hex colors' do
+    it 'produces background hex escape codes' do
+      result = described_class.bg_hex('#ff6432').call('color')
+      expect(result).to eq("\e[48;2;255;100;50mcolor\e[0m")
+    end
+
+    it 'accepts hex without hash prefix' do
+      result = described_class.bg_hex('0000ff').call('text')
+      expect(result).to eq("\e[48;2;0;0;255mtext\e[0m")
     end
   end
 
@@ -302,6 +323,15 @@ RSpec.describe Philiprehberger::Color do
     it 'handles empty string' do
       result = described_class.rainbow('')
       expect(result).to eq('')
+    end
+  end
+
+  describe 'Styler immutability' do
+    it 'does not mutate the original Styler when chaining' do
+      base = described_class.bold
+      base.red.call('a')
+      result = base.blue.call('b')
+      expect(result).to eq("\e[1m\e[34mb\e[0m")
     end
   end
 

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-04-09
+
+### Added
+- `bg_rgb(r, g, b)` method for 24-bit background colors
+- `bg_hex(hex_string)` method for hex background colors
+
+### Changed
+- Fix RGB escape sequence format to use standard `\e[38;2;R;G;Bm` single-sequence encoding
+- Make `Styler` immutable — chaining methods return new instances instead of mutating state, making saved references safe to reuse
+
 ## [0.3.0] - 2026-04-04
 
 ### Added
