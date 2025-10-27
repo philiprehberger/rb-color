@@ -9,6 +9,10 @@ module Philiprehberger
 
         $stdout.respond_to?(:tty?) && $stdout.tty?
       end
+
+      def self.truecolor?
+        %w[truecolor 24bit].include?(ENV['COLORTERM']&.downcase)
+      end
     end
   end
 end

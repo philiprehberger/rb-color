@@ -76,6 +76,12 @@ Philiprehberger::Color.enabled? # => true (when TTY)
 # Force color output:        FORCE_COLOR=1
 ```
 
+Check for 24-bit true color support via the `COLORTERM` environment variable:
+
+```ruby
+Philiprehberger::Color::Detection.truecolor? # => true when COLORTERM=truecolor or 24bit
+```
+
 ### Rainbow Text
 
 Apply cycling colors (red, yellow, green, cyan, blue, magenta) to each character:
@@ -136,6 +142,7 @@ Philiprehberger::Color.visible_length(colored)   # => 5
 | Method | Description |
 |--------|-------------|
 | `Color.enabled?` | `true` if stdout is a TTY and `NO_COLOR` is not set |
+| `Detection.truecolor?` | `true` if `COLORTERM` is `truecolor` or `24bit` (case-insensitive) |
 
 Set `NO_COLOR` to disable color output. Set `FORCE_COLOR` to force color output regardless of TTY.
 
