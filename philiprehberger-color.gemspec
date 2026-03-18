@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name = 'philiprehberger-color'
   spec.version = Philiprehberger::Color::VERSION
   spec.authors = ['Philip Rehberger']
-  spec.email = ['philiprehberger@gmail.com']
+  spec.email = ['me@philiprehberger.com']
 
   spec.summary = 'Terminal ANSI color and styling with auto-detection'
   spec.description = 'A lightweight Ruby library for terminal ANSI color and styling ' \
@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
     'homepage_uri' => spec.homepage,
     'source_code_uri' => spec.homepage,
     'changelog_uri' => "#{spec.homepage}/blob/main/CHANGELOG.md",
+    'bug_tracker_uri' => "#{spec.homepage}/issues",
     'rubygems_mfa_required' => 'true'
   }
 
