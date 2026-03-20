@@ -1,8 +1,6 @@
 # philiprehberger-color
 
-[![Gem Version](https://badge.fury.io/rb/philiprehberger-color.svg)](https://rubygems.org/gems/philiprehberger-color)
-[![CI](https://github.com/philiprehberger/rb-color/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/rb-color/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/philiprehberger/rb-color)](LICENSE)
+[![Tests](https://github.com/philiprehberger/rb-color/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/rb-color/actions/workflows/ci.yml) [![Gem Version](https://badge.fury.io/rb/philiprehberger-color.svg)](https://rubygems.org/gems/philiprehberger-color) [![License](https://img.shields.io/github/license/philiprehberger/rb-color)](LICENSE)
 
 Terminal ANSI color and styling with auto-detection
 
@@ -15,7 +13,7 @@ Terminal ANSI color and styling with auto-detection
 Add to your Gemfile:
 
 ```ruby
-gem 'philiprehberger-color'
+gem "philiprehberger-color"
 ```
 
 Or install directly:
