@@ -27,7 +27,7 @@ gem install philiprehberger-color
 ## Usage
 
 ```ruby
-require 'philiprehberger/color'
+require "philiprehberger/color"
 
 # Named colors
 puts Philiprehberger::Color.red('Error!')
@@ -95,8 +95,8 @@ Set `NO_COLOR` to disable color output. Set `FORCE_COLOR` to force color output 
 
 ```bash
 bundle install
-bundle exec rspec      # Run tests
-bundle exec rubocop    # Check code style
+bundle exec rspec
+bundle exec rubocop
 ```
 
 ## License
