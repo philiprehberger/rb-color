@@ -11,15 +11,15 @@ Gem::Specification.new do |spec|
   spec.summary = 'Terminal ANSI color and styling with auto-detection'
   spec.description = 'A lightweight Ruby library for terminal ANSI color and styling ' \
                      'with chainable API, RGB/hex support, and automatic terminal detection.'
-  spec.homepage = 'https://github.com/philiprehberger/rb-color'
+  spec.homepage      = 'https://philiprehberger.com/open-source-packages/ruby/philiprehberger-color'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.1.0'
 
   spec.metadata = {
     'homepage_uri' => spec.homepage,
-    'source_code_uri' => spec.homepage,
-    'changelog_uri' => "#{spec.homepage}/blob/main/CHANGELOG.md",
-    'bug_tracker_uri' => "#{spec.homepage}/issues",
+    'source_code_uri' => 'https://github.com/philiprehberger/rb-color',
+    'changelog_uri' => 'https://github.com/philiprehberger/rb-color/blob/main/CHANGELOG.md',
+    'bug_tracker_uri' => 'https://github.com/philiprehberger/rb-color/issues',
     'rubygems_mfa_required' => 'true'
   }
 
