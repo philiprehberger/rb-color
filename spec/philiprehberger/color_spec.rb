@@ -233,6 +233,46 @@ RSpec.describe Philiprehberger::Color do
     end
   end
 
+  describe '.strip' do
+    it 'removes ANSI color codes' do
+      colored = described_class.red('hello')
+      expect(described_class.strip(colored)).to eq('hello')
+    end
+
+    it 'removes multiple style codes' do
+      styled = described_class.bold.underline.call('test')
+      expect(described_class.strip(styled)).to eq('test')
+    end
+
+    it 'returns plain string unchanged' do
+      expect(described_class.strip('plain')).to eq('plain')
+    end
+
+    it 'handles empty string' do
+      expect(described_class.strip('')).to eq('')
+    end
+
+    it 'handles nil' do
+      expect(described_class.strip(nil)).to eq('')
+    end
+  end
+
+  describe '.visible_length' do
+    it 'returns length without ANSI codes' do
+      colored = described_class.red('hello')
+      expect(described_class.visible_length(colored)).to eq(5)
+    end
+
+    it 'returns correct length for plain string' do
+      expect(described_class.visible_length('hello')).to eq(5)
+    end
+
+    it 'handles chained styles' do
+      styled = described_class.bold.red.call('test')
+      expect(described_class.visible_length(styled)).to eq(4)
+    end
+  end
+
   describe '.enabled? detection' do
     it 'respects FORCE_COLOR over NO_COLOR' do
       ENV['FORCE_COLOR'] = '1'

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-04-04
+
+### Added
+- `strip` method for removing ANSI escape sequences from strings
+- `visible_length` method for calculating display width without ANSI codes
+- GitHub issue template gem version field
+- Feature request "Alternatives considered" field
+
 ## [0.1.10] - 2026-03-31
 
 ### Added
