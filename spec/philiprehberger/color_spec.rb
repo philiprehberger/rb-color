@@ -273,6 +273,38 @@ RSpec.describe Philiprehberger::Color do
     end
   end
 
+  describe '.rainbow' do
+    it 'applies cycling colors to each character' do
+      result = described_class.rainbow('abcdef')
+      expect(result).to eq(
+        "\e[31ma\e[0m\e[33mb\e[0m\e[32mc\e[0m\e[36md\e[0m\e[34me\e[0m\e[35mf\e[0m"
+      )
+    end
+
+    it 'cycles colors beyond six characters' do
+      result = described_class.rainbow('abcdefg')
+      # 7th char wraps back to red (31)
+      expect(result).to end_with("\e[31mg\e[0m")
+    end
+
+    it 'preserves spaces without coloring them' do
+      result = described_class.rainbow('a b')
+      expect(result).to eq("\e[31ma\e[0m \e[32mb\e[0m")
+    end
+
+    it 'returns plain text when color is disabled' do
+      ENV.delete('FORCE_COLOR')
+      ENV['NO_COLOR'] = '1'
+      result = described_class.rainbow('hello')
+      expect(result).to eq('hello')
+    end
+
+    it 'handles empty string' do
+      result = described_class.rainbow('')
+      expect(result).to eq('')
+    end
+  end
+
   describe '.enabled? detection' do
     it 'respects FORCE_COLOR over NO_COLOR' do
       ENV['FORCE_COLOR'] = '1'
