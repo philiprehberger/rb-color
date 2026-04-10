@@ -53,6 +53,18 @@ module Philiprehberger
       Styler.new.bg(color_name)
     end
 
+    def self.bg_rgb(red, green, blue)
+      Styler.new.bg_rgb(red, green, blue)
+    end
+
+    def self.bg_hex(hex_string)
+      hex = hex_string.delete('#')
+      r = hex[0..1].to_i(16)
+      g = hex[2..3].to_i(16)
+      b = hex[4..5].to_i(16)
+      bg_rgb(r, g, b)
+    end
+
     def self.rainbow(text)
       return text unless enabled?
 
