@@ -8,6 +8,7 @@ module Philiprehberger
       DIM       = "\e[2m"
       ITALIC    = "\e[3m"
       UNDERLINE = "\e[4m"
+      INVERT    = "\e[7m"
 
       COLORS = {
         black: 30, red:     31, green:   32, yellow:  33,

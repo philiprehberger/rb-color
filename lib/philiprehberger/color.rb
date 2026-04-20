@@ -37,6 +37,10 @@ module Philiprehberger
       Styler.new.underline
     end
 
+    def self.invert
+      Styler.new.invert
+    end
+
     def self.rgb(red, green, blue)
       Styler.new.rgb(red, green, blue)
     end
