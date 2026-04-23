@@ -27,6 +27,10 @@ module Philiprehberger
         derive(4)
       end
 
+      def invert
+        derive(7)
+      end
+
       def bg(color_name)
         code = Ansi::BG_COLORS[color_name.to_sym]
         code ? derive(code) : derive

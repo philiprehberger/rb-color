@@ -44,6 +44,15 @@ puts Philiprehberger::Color.italic.yellow.call("Italic yellow")
 puts Philiprehberger::Color.dim.underline.white.call("Dim underlined")
 ```
 
+### Invert
+
+Swap foreground and background with reverse video (SGR 7):
+
+```ruby
+Philiprehberger::Color.invert.call("selected")
+Philiprehberger::Color.bold.invert.call("highlight")
+```
+
 ### RGB and Hex Colors
 
 Use 24-bit true color with RGB values or hex strings:
@@ -131,6 +140,7 @@ Philiprehberger::Color.visible_length(colored)   # => 5
 | `Color.dim` | Returns chainable Styler with dim |
 | `Color.italic` | Returns chainable Styler with italic |
 | `Color.underline` | Returns chainable Styler with underline |
+| `Color.invert` | Returns chainable Styler with reverse video (SGR 7) |
 | `Color.rgb(r, g, b)` | Returns Styler with 24-bit foreground color |
 | `Color.hex(hex_string)` | Returns Styler with hex foreground color |
 | `Color.bg(color_name)` | Returns Styler with background color |

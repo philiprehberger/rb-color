@@ -95,6 +95,11 @@ RSpec.describe Philiprehberger::Color do
       result = described_class.underline.call('hello')
       expect(result).to eq("\e[4mhello\e[0m")
     end
+
+    it 'applies invert styling' do
+      result = described_class.invert.call('hello')
+      expect(result).to eq("\e[7mhello\e[0m")
+    end
   end
 
   describe 'chained styles' do
@@ -126,6 +131,55 @@ RSpec.describe Philiprehberger::Color do
     it 'chains color with background' do
       result = described_class.bold.bg(:blue).call('text')
       expect(result).to eq("\e[1m\e[44mtext\e[0m")
+    end
+
+    it 'chains bold, invert, and red' do
+      result = described_class.bold.invert.red.call('x')
+      expect(result).to eq("\e[1m\e[7m\e[31mx\e[0m")
+      expect(result).to include("\e[1m")
+      expect(result).to include("\e[7m")
+      expect(result).to include("\e[31m")
+    end
+  end
+
+  describe '.invert' do
+    it 'emits SGR 7 reverse-video sequence when enabled' do
+      result = described_class.invert.call('x')
+      expect(result).to include("\e[7m")
+      expect(result).to eq("\e[7mx\e[0m")
+    end
+
+    it 'round-trips through Color.strip' do
+      expect(described_class.strip(described_class.invert.call('x'))).to eq('x')
+    end
+
+    context 'when color is disabled' do
+      around do |example|
+        ENV.delete('FORCE_COLOR')
+        ENV['NO_COLOR'] = '1'
+        example.run
+      end
+
+      it 'returns plain string without ANSI codes' do
+        expect(described_class.invert.call('x')).to eq('x')
+      end
+    end
+  end
+
+  describe '#invert' do
+    it 'is chainable from another style' do
+      result = described_class.bold.invert.call('x')
+      expect(result).to eq("\e[1m\e[7mx\e[0m")
+    end
+
+    it 'composes with a foreground color' do
+      result = described_class.invert.red.call('x')
+      expect(result).to eq("\e[7m\e[31mx\e[0m")
+    end
+
+    it 'composes with a background color' do
+      result = described_class.invert.bg(:yellow).call('x')
+      expect(result).to eq("\e[7m\e[43mx\e[0m")
     end
   end
 
