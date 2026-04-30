@@ -76,6 +76,32 @@ module Philiprehberger
       text.chars.map.with_index { |c, i| c == ' ' ? c : "\e[#{colors[i % colors.length]}m#{c}\e[0m" }.join
     end
 
+    # Apply a color gradient across the characters of a string using a caller-
+    # supplied list of named colors. Cycles through the palette character-by-
+    # character; whitespace passes through unchanged. Returns the input
+    # unchanged when colors are disabled (e.g. non-TTY output).
+    #
+    # @param text [String] the text to colorize
+    # @param colors [Array<Symbol>] one or more color names from `Ansi::COLORS`
+    # @return [String] the colorized string
+    # @raise [ArgumentError] if `colors` is empty or contains an unknown name
+    def self.gradient(text, colors)
+      raise ArgumentError, 'colors must be a non-empty Array' unless colors.is_a?(Array) && !colors.empty?
+
+      codes = colors.map do |name|
+        code = Ansi::COLORS[name]
+        raise ArgumentError, "unknown color: #{name.inspect}" unless code
+
+        code
+      end
+
+      return text unless enabled?
+
+      text.chars.each_with_index.map do |char, i|
+        char.match?(/\s/) ? char : "\e[#{codes[i % codes.length]}m#{char}\e[0m"
+      end.join
+    end
+
     Ansi::COLORS.each_key do |name|
       define_singleton_method(name) do |string|
         Ansi.wrap(string, Ansi::COLORS[name])

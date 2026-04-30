@@ -380,6 +380,43 @@ RSpec.describe Philiprehberger::Color do
     end
   end
 
+  describe '.gradient' do
+    it 'cycles through the supplied colors character by character' do
+      result = described_class.gradient('abcd', %i[red green])
+      expect(result).to eq("\e[31ma\e[0m\e[32mb\e[0m\e[31mc\e[0m\e[32md\e[0m")
+    end
+
+    it 'works with a single color (every character gets that color)' do
+      result = described_class.gradient('ab', [:blue])
+      expect(result).to eq("\e[34ma\e[0m\e[34mb\e[0m")
+    end
+
+    it 'leaves whitespace uncolored' do
+      # index advances through whitespace, matching .rainbow's positional palette
+      result = described_class.gradient('a b', %i[red green])
+      expect(result).to eq("\e[31ma\e[0m \e[31mb\e[0m")
+      expect(described_class.gradient('a  b', %i[red green])).to eq("\e[31ma\e[0m  \e[32mb\e[0m")
+    end
+
+    it 'returns plain text when color is disabled' do
+      ENV.delete('FORCE_COLOR')
+      ENV['NO_COLOR'] = '1'
+      expect(described_class.gradient('hello', %i[red green])).to eq('hello')
+    end
+
+    it 'raises ArgumentError when colors is empty' do
+      expect { described_class.gradient('hello', []) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises ArgumentError when colors is not an Array' do
+      expect { described_class.gradient('hello', :red) }.to raise_error(ArgumentError)
+    end
+
+    it 'raises ArgumentError for unknown color names' do
+      expect { described_class.gradient('hello', %i[red puce]) }.to raise_error(ArgumentError, /unknown color/)
+    end
+  end
+
   describe 'Styler immutability' do
     it 'does not mutate the original Styler when chaining' do
       base = described_class.bold

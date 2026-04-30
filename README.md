@@ -99,6 +99,17 @@ Apply cycling colors (red, yellow, green, cyan, blue, magenta) to each character
 puts Philiprehberger::Color.rainbow("Hello, world!")
 ```
 
+### Gradient
+
+Apply a caller-supplied palette across the characters of a string. Like
+`rainbow`, but with explicit control over which colors cycle. Whitespace is
+left uncolored.
+
+```ruby
+puts Philiprehberger::Color.gradient("Deploying...", %i[cyan magenta])
+puts Philiprehberger::Color.gradient("OK", [:green])  # whole word green
+```
+
 ### Stripping ANSI Codes
 
 ```ruby
@@ -161,6 +172,7 @@ Set `NO_COLOR` to disable color output. Set `FORCE_COLOR` to force color output 
 | Method | Description |
 |--------|-------------|
 | `Color.rainbow(str)` | Apply cycling rainbow colors to each character |
+| `Color.gradient(str, colors)` | Apply a caller-supplied palette across each character (whitespace left uncolored) |
 | `Color.strip(str)` | Remove all ANSI escape sequences from a string |
 | `Color.visible_length(str)` | Return display width of a string excluding ANSI codes |
 
